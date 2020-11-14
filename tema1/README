@@ -1,6 +1,6 @@
-//Adrian-Valeriu Croitoru, 312CA
+# Adrian-Valeriu Croitoru, 312CA
 
-Problema 1 - ninel
+## Problema 1 - ninel
 	*se citeste numarul N de copaci si primul dintre acestia (N > 0, deci 		exista cel putin un copac)
 	*se va utiliza un proces repetitiv for prin care se vor citi si restul	
 	copacilor
@@ -14,7 +14,7 @@ Problema 1 - ninel
 	*in final, se analizeaza cazurile particulare cand nu exista copaci
 	speciali, sau exista doar copaci speciali cu indice par, etc.
 	
-Problema 2 - vectsecv
+## Problema 2 - vectsecv
 	*se citeste numarul N
 	*se calculeaza diferentele si se stocheaza intr-un vector
 	*de fiecare data se verifica vectorul diferentelor, in vederea gasirii
@@ -25,7 +25,7 @@ Problema 2 - vectsecv
 	situate intre acestea (inclusiv prima diferenta identica) determina un
 	sir de numere care se va repeta la infinit
 	
-Problema 3 - codeinvim
+## Problema 3 - codeinvim
 	*citeste nr de materii, notele si creditele aferente fiecarei materii
 	*se citeste numarul minim de puncte
 	*se calculeaza numarul de puncte pe care le are studentul
@@ -36,7 +36,7 @@ Problema 3 - codeinvim
 	pragul minim, ma opresc 
 	*afisez numarul de materii "reparate"
 	
-Problema 4 - nomogram
+## Problema 4 - nomogram
 	*citesc T - puzzle-ul curent 
 	*pentru fiecare puzzle, citesc precizarile despre linii, cele despre
 	coloane si matricea nonogram-ului
