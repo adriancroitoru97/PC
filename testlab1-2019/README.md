@@ -1,1 +1,3 @@
-# examen_practic2019
+# Test laborator 1 - 2019
+
+## Copyright Adrian-Valeriu Croitoru
