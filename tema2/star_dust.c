@@ -19,8 +19,8 @@ void task2_modify(int *v, char **mat_char,
 void print_matrix_char(int n, int *v, char **mat_char);
 
 void task3(int n, int *v, char **mat_char_2,
-		   int *line_bh, int *column_bh, int *max_bh);
-int task3_search(int n, int *v, char **mat_char_2, int line_bh, int column_bh);
+		   int *line_bh, int *col_bh, int *max_bh);
+int task3_search(int n, int *v, char **mat_char_2, int line_bh, int col_bh);
 
 int main(void)
 {
@@ -46,9 +46,9 @@ int main(void)
 
 	printf("task 3\n");
 	mat_char_2 = init_matrix_char_2(n, v, mat_char);
-	int line_bh, column_bh, max_bh = -1; // bh - black hole
-	task3(n, v, mat_char_2, &line_bh, &column_bh, &max_bh);
-	printf("%d %d %d\n", line_bh, column_bh, max_bh);
+	int line_bh, col_bh, max_bh = -1; // bh - black hole
+	task3(n, v, mat_char_2, &line_bh, &col_bh, &max_bh);
+	printf("%d %d %d\n", line_bh, col_bh, max_bh);
 
 	free_memory(n, v, mat, mat_char, mat_char_2);
 
@@ -254,7 +254,9 @@ void task2(int *v, char **mat_char)
 
 void task2_delete(int *v, char **mat_char, int dimension, int line, int index)
 {
-	int sub_index = 0, index_cnt = 0, ver = 0;
+	int sub_index = 0; //numara bytes pana se obtine dimensiunea unui bloc
+	int index_cnt = 0; //contorizeaza numarul de blocuri
+	int ver = 0; //opreste algoritmul cand operatia s-a incheiat
 
 	for (int j = 3; j <= v[line] * 4; j = j + 4) {
 		for (int k = j; k > j - 4; k--) {
@@ -289,9 +291,9 @@ void task2_delete(int *v, char **mat_char, int dimension, int line, int index)
 
 void task2_swap(int *v, char **mat_char, int dimension, int line, int index)
 {
-	int sub_index = 0, index_cnt = -1, cnt = 3;
-	int ver = 0;
+	int sub_index = 0, index_cnt = -1;
 	char temp[4];
+	int ver = 0;
 
 	for (int j = 3; j <= v[line] * 4; j = j + 4) {
 		temp[0] = mat_char[line][j];
@@ -312,10 +314,10 @@ void task2_swap(int *v, char **mat_char, int dimension, int line, int index)
 						ver = 1;
 						break;
 					} else if (dimension == 4) {
-						mat_char[line][k + 3] = temp[cnt--];
-						mat_char[line][k + 2] = temp[cnt--];
-						mat_char[line][k + 1] = temp[cnt--];
-						mat_char[line][k] = temp[cnt--];
+						mat_char[line][k + 3] = temp[3];
+						mat_char[line][k + 2] = temp[2];
+						mat_char[line][k + 1] = temp[1];
+						mat_char[line][k] = temp[0];
 						ver = 1;
 						break;
 					}
@@ -331,8 +333,8 @@ void task2_swap(int *v, char **mat_char, int dimension, int line, int index)
 void task2_modify(int *v, char **mat_char,
 				  int dimension, int line, int index, int new_value)
 {
-	int aux = v[line];
-	int dim = index * dimension;
+	int aux = v[line]; //vechea dimensiune a unei linii
+	int dim = index * dimension; //noua dimensiune a unei linii
 
 	if (dim > 4 * v[line]) {
 		mat_char[line] = (char *)realloc(mat_char[line], dim + dim % 4);
@@ -350,9 +352,9 @@ void task2_modify(int *v, char **mat_char,
 	}
 
 	int sub_index = 0, index_cnt = 0;
-	int cnt = 0, ver = 0;
+	int ver = 0;
 
-	int temp[4];
+	int temp[4]; //memoreaza int ul actual, sub forma celor 4 bytes
 	temp[0] = (new_value) & 0xFF;
 	temp[1] = (new_value >> 8) & 0xFF;
 	temp[2] = (new_value >> 16) & 0xFF;
@@ -367,15 +369,15 @@ void task2_modify(int *v, char **mat_char,
 
 				if (index_cnt == index) {
 					if (dimension == 1) {
-						mat_char[line][k] = temp[cnt++];
+						mat_char[line][k] = temp[0];
 					} else if (dimension == 2) {
-						mat_char[line][k + 1] = temp[cnt++];
-						mat_char[line][k] = temp[cnt++];
+						mat_char[line][k + 1] = temp[0];
+						mat_char[line][k] = temp[1];
 					} else if (dimension == 4) {
-						mat_char[line][k + 3] = temp[cnt++];
-						mat_char[line][k + 2] = temp[cnt++];
-						mat_char[line][k + 1] = temp[cnt++];
-						mat_char[line][k] = temp[cnt++];
+						mat_char[line][k + 3] = temp[0];
+						mat_char[line][k + 2] = temp[1];
+						mat_char[line][k + 1] = temp[2];
+						mat_char[line][k] = temp[3];
 					}
 					ver = 1;
 					break;
@@ -406,7 +408,7 @@ void print_matrix_char(int n, int *v, char **mat_char)
 }
 
 void task3(int n, int *v, char **mat_char_2,
-		   int *line_bh, int *column_bh, int *max_bh)
+		   int *line_bh, int *col_bh, int *max_bh)
 {
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < 4 * v[i]; j++) {
@@ -414,34 +416,34 @@ void task3(int n, int *v, char **mat_char_2,
 			if (x > *max_bh) {
 				*max_bh = x;
 				*line_bh = i;
-				*column_bh = j;
+				*col_bh = j;
 			}
 		}
 	}
 }
 
-int task3_search(int n, int *v, char **mat_char_2, int line_bh, int column_bh)
+int task3_search(int n, int *v, char **mat_char_2, int line_bh, int col_bh)
 {
-	int sum = 0;
+	int dim_bh = 0; // dimensiunea black hole-ului
 
-	if (mat_char_2[line_bh][column_bh] == 0) {
-		sum++;
-		mat_char_2[line_bh][column_bh] = 1;
+	if (mat_char_2[line_bh][col_bh] == 0) {
+		dim_bh++;
+		mat_char_2[line_bh][col_bh] = 1;
 
-		if (column_bh - 1 >= 0)
-			sum = sum + task3_search(n, v, mat_char_2, line_bh, column_bh - 1);
+		if (col_bh - 1 >= 0)
+			dim_bh += task3_search(n, v, mat_char_2, line_bh, col_bh - 1);
 
-		if (column_bh + 1 < 4 * v[line_bh])
-			sum = sum + task3_search(n, v, mat_char_2, line_bh, column_bh + 1);
+		if (col_bh + 1 < 4 * v[line_bh])
+			dim_bh += task3_search(n, v, mat_char_2, line_bh, col_bh + 1);
 
-		if (line_bh - 1 >= 0 && (4 * v[line_bh - 1] > column_bh))
-			sum = sum + task3_search(n, v, mat_char_2, line_bh - 1, column_bh);
+		if (line_bh - 1 >= 0 && (4 * v[line_bh - 1] > col_bh))
+			dim_bh += task3_search(n, v, mat_char_2, line_bh - 1, col_bh);
 
-		if (line_bh + 1 < n && (4 * v[line_bh + 1] > column_bh))
-			sum = sum + task3_search(n, v, mat_char_2, line_bh + 1, column_bh);
+		if (line_bh + 1 < n && (4 * v[line_bh + 1] > col_bh))
+			dim_bh += task3_search(n, v, mat_char_2, line_bh + 1, col_bh);
 	}
 
-	return sum;
+	return dim_bh;
 }
 
 void free_memory(int n, int *v, int **mat, char **mat_char, char **mat_char_2)

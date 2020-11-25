@@ -29,7 +29,7 @@
 	
 	*Swap:
 		-Parcurg mat_char pana ajung la blocul corespunzator de memorie
-		-Ignor cazul cand blocurile au dimensiunea 1 - acele blocuri raman neschimbate
+		-Ignor cazul in care blocurile au dimensiunea 1 - acele blocuri raman neschimbate
 		-Folosesc variabile precum temp si aux pentru a stoca bytes
 		 dintr-un bloc pe care urmeaza sa-i interschimb
 		 
