@@ -1,0 +1,51 @@
+# Adrian-Valeriu Croitoru, 312CA
+
+
+## PROGRAMAREA CALCULATOARELOR - Tema #2 Alocare dinamică - star_dust
+
+
+### Task 1
+	*Se parcurge matricea de int uri - mat - pe cele 4 margini
+	*Pentru fiecare int de pe margini voi accesa byte ul de la periferie
+	 prin shiftari de biti, &0xFF avand rolul de a pastra strict 1 byte
+	*Atat suma acelor bytes care ma intereseaza, cat si numarul acestora
+	 se vor memora
+	*Se returneaza media aritmetica ceruta
+	
+	
+### Task 2
+	*Voi lucra cu o noua matrice, de char-uri - mat_char - in cadrul careia fiecarui
+	 int ii sunt asociate 4 pozitii - una pentru fiecare byte
+	 Folosesc si acum shiftare pe biti si AND pe biti
+	*La fiecare operatie din acest pas voi tine cont de endianness, deci
+	 voi parcurge fiecare bloc de 4 char-uri (aferent unui int) 
+	 in sens invers
+	*La fiecare operatie folosesc un int ver, prin care determin
+	cand am terminat operatia, pentru a ma opri
+	 
+	*Delete:
+		-Parcurg mat_char pana ajung la blocul corespunzator de memorie
+		-Zeroizez respectivul bloc
+	
+	*Swap:
+		-Parcurg mat_char pana ajung la blocul corespunzator de memorie
+		-Ignor cazul cand blocurile au dimensiunea 1 - acele blocuri raman neschimbate
+		-Folosesc variabile precum temp si aux pentru a stoca bytes
+		 dintr-un bloc pe care urmeaza sa-i interschimb
+		 
+	*Modify:
+		-Verific daca linia pe care lucrez este suficient de lunga
+		 In caz contrar, realoc memoria alocata respectivei linii
+		-Parcurg mat_char si cand gasesc blocul cautat, il inlocuiesc
+		 cu noua valoare
+
+
+### Task 3
+	*Construiesc o noua matrice char - mat_char_2 - in care tin cont de
+	 endianness (inversez bytes din fiecare int)
+	*Parcurg mat_char_2, iar pentru fiecare element verific daca este 0
+	 In caz pozitiv, verific si elementele din proximitatea sa ( si tot asa
+	 - in mod recursiv ) pentru a determina cea mai mare suprafata de 0-uri
+	*Dupa ce am gasit o noua suprafata, o compar cu cea mai mare deja memorata
+	*Memorez de fiecare data cea mai mare suprafata si coordonatele acesteia
+		 
